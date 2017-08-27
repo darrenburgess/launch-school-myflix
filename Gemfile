@@ -19,6 +19,7 @@ end
 group :development, :test do
   gem 'pry'
   gem 'pry-nav'
+  gem "awesome_print"
   gem 'rspec-rails', '2.99'
 end
 
