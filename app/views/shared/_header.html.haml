@@ -7,7 +7,7 @@
     %li= link_to "People"
 
   -#TODO: button out of alignment
-  = form_tag search_videos_path do
+  = form_tag search_videos_path, class: 'col-md-5 navbar-form', method: 'get' do
     .form-group
       = text_field_tag(:search_term, "", class: 'form-control', placeholder: "Search for videos here")
     = submit_tag "Search", class: 'btn btn-default'
