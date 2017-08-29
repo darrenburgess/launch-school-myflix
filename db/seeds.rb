@@ -8,11 +8,11 @@
 #
 
 unless Category.where(name: "Comedy").first
-  Category.create(name: "Comedy")
+  comedy = Category.create(name: "Comedy")
 end
 
 unless Category.where(name: "Drama").first
-  Category.create(name: "Drama")
+  drama = Category.create(name: "Drama")
 end
 
 unless Video.where(title: "Southpark").first
@@ -21,7 +21,7 @@ unless Video.where(title: "Southpark").first
           description: "Sit minus cum accusantium voluptas cumque incidunt sapiente. Culpa ullam ad numquam in impedit, alias commodi quia totam optio maxime libero cupiditate. Harum similique non doloribus veniam delectus dignissimos ipsam.", 
           small_cover_url: "/tmp/south_park.jpg",
           large_cover_url: "/tmp/monk_large.jpg",
-          category_id: Category.first[:id]
+          category: comedy
   )
 end
 
@@ -31,6 +31,26 @@ unless Video.where(title: "Family Guy").first
           description: "Sit minus cum accusantium voluptas cumque incidunt sapiente. Culpa ullam ad numquam in impedit, alias commodi quia totam optio maxime libero cupiditate. Harum similique non doloribus veniam delectus dignissimos ipsam.", 
           small_cover_url: "/tmp/family_guy.jpg",
           large_cover_url: "/tmp/monk_large.jpg",
-          category_id: Category.second[:id]
+          category: comedy
+  )
+end
+
+unless Video.where(title: "Futurama").first
+  Video.create(
+          title: "Futurama", 
+          description: "Sit minus cum accusantium voluptas cumque incidunt sapiente. Culpa ullam ad numquam in impedit, alias commodi quia totam optio maxime libero cupiditate. Harum similique non doloribus veniam delectus dignissimos ipsam.", 
+          small_cover_url: "/tmp/futurama.jpg",
+          large_cover_url: "/tmp/monk_large.jpg",
+          category: comedy
+  )  
+end
+
+unless Video.where(title: "Monk").first
+  Video.create(
+          title: "Monk", 
+          description: "Sit minus cum accusantium voluptas cumque incidunt sapiente. Culpa ullam ad numquam in impedit, alias commodi quia totam optio maxime libero cupiditate. Harum similique non doloribus veniam delectus dignissimos ipsam.", 
+          small_cover_url: "/tmp/monk.jpg",
+          large_cover_url: "/tmp/monk_large.jpg",
+          category: drama
   )
 end
