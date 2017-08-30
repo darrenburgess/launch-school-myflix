@@ -7,6 +7,10 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 #
 
+unless User.where(email: "darrentburgess@gmail.com").first
+  User.create(email: "darrentburgess@gmail.com", password: "password", full_name: "Darren Burgess")
+end
+
 unless Category.where(name: "Comedy").first
   comedy = Category.create(name: "Comedy")
 end
