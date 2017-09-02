@@ -3,15 +3,18 @@ class SessionsController < ApplicationController
 
   # TODO: message for require_logged_out should be suppressed
 
+  def new
+  end
+
   def create
     user = User.find_by(email: params[:email])
 
     if user && user.authenticate(params[:password])
-      flash[:notice] = "Welcome, #{user.full_name}"
       session[:user_id] = user.id
+      flash[:notice] = "Welcome, #{user.full_name}"
       redirect_to home_path
     else
-      flash[:error] = "Invalid email or password"
+      flash.now[:error] = "Invalid email or password"
       render :new
     end
   end
