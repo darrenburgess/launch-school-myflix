@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+
 ruby '2.1.2'
 
 gem 'bootstrap-sass', '3.1.1.1'
@@ -23,6 +24,8 @@ group :development, :test do
   gem 'pry-nav'
   gem "awesome_print"
   gem 'rspec-rails', '2.99'
+  gem 'faker'
+  gem 'fabrication'
 end
 
 group :test do
