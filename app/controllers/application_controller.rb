@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
   def access_denied
     if logged_out?
       flash[:error] = "You must be logged in to do that"
-      redirect_to root_path
+      redirect_to signin_path
     else
       flash[:error] = "You must be logged out to do that"
       redirect_to home_path
