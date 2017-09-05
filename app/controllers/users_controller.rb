@@ -10,7 +10,7 @@ class UsersController < ApplicationController
 
     if @user.save
       flash[:notice] = "Your account was created"
-      redirect_to root_path
+      redirect_to signin_path
     else
       render :new
     end
