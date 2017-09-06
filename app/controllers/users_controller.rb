@@ -1,7 +1,6 @@
 class UsersController < ApplicationController
-  before_action :require_logged_out, only: [:new]
-
   def new
+    redirect_to home_path if current_user
     @user = User.new
   end
 
