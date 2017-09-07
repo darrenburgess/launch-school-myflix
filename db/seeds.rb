@@ -3,7 +3,7 @@ unless User.find_by(email: "darrentburgess@gmail.com")
 end
 
 unless User.find_by(email: "steve@jones.com")
-  User.create(email: "steve@jones.com", password: "password", full_name: "Steve Jones")
+  steve = User.create(email: "steve@jones.com", password: "password", full_name: "Steve Jones")
 end
 
 unless Category.find_by(name: "Comedy")
@@ -34,6 +34,17 @@ unless Video.find_by(title: "Family Guy")
           created_at: 6.days.ago,
           category: comedy
   )
+end
+
+family_guy = Video.find_by(title: "Family Guy")
+
+3.times do
+  Review.create(
+           content: Faker::Lorem.paragraph(2),
+           rating: Random.new.rand(1..5),
+           video: family_guy,
+           user: steve
+        )
 end
 
 unless Video.find_by(title: "Futurama")
