@@ -5,17 +5,18 @@ describe VideosController do
     let(:video) { Fabricate :video }
 
     context "for authenticated users" do
-      it "sets @video" do
+      before do
         session[:user_id] = Fabricate(:user).id
         get :show, id: video.id
+      end
+
+      it "sets @video" do
         expect(assigns(:video).should eq video)
       end
 
       it "sets @reviews" do
-        session[:user_id] = Fabricate(:user).id
-        get :show, id: video.id
-        review1 = Fabricate(:review, video: video)
-        review2 = Fabricate(:review, video: video)
+        review1 = Fabricate(:review, video: video, user_id: session[:user_id])
+        review2 = Fabricate(:review, video: video, user_id: session[:user_id])
         expect(assigns(:reviews)).to match_array([review1, review2])
       end
     end
@@ -27,6 +28,7 @@ describe VideosController do
       end
     end
   end
+
 
   describe "POST search" do
     let(:video) { Fabricate :video }
