@@ -3,16 +3,16 @@ require 'spec_helper'
 describe ReviewsController do
   describe "POST create" do
     context "for authenticated users" do
-      context "with valid input" do
-        let(:video) { Fabricate(:video) } 
-        let(:current_user) { Fabricate(:user) }
+      let(:video) { Fabricate(:video) } 
+      let(:current_user) { Fabricate(:user) }
 
+      before do
+        session[:user_id] = current_user.id 
+      end
+
+      context "with valid input" do
         before do
-          session[:user_id] = current_user.id 
-          post :create, review:
-            Fabricate.attributes_for(:review),
-            video_id: video.id,
-            user_id: session[:user_id] 
+          post :create, review: Fabricate.attributes_for(:review), video_id: video.id, user_id: session[:user_id] 
         end
 
         it "redirects to video show template" do
@@ -37,15 +37,8 @@ describe ReviewsController do
       end
 
       context "with invalid input" do
-        let(:video) { Fabricate(:video) }
-        let(:current_user) { Fabricate(:user) }
-
         before do
-          session[:user_id] = current_user.id
-          post :create, review:
-            { rating: nil, content: nil },
-            video_id: video.id,
-            user_id: session[:user_id] 
+          post :create, review: { rating: nil, content: nil }, video_id: video.id, user_id: session[:user_id] 
         end
 
         it "renders video show template" do
