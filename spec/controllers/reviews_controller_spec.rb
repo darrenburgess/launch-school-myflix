@@ -31,6 +31,9 @@ describe ReviewsController do
           expect(Review.first.user).to eq current_user
         end
 
+        it "orders review by created_by descending" do
+        end
+
         it "sets the success message" do
           expect(flash[:message]).to_not be_blank
         end
@@ -42,11 +45,20 @@ describe ReviewsController do
         end
 
         it "renders video show template" do
-          expect(response).to redirect_to video_path(video)
+          expect(response).to render_template "videos/show" 
         end
 
         it "does not create review record" do
           expect(Review.count).to eq 0
+        end
+
+        it "sets @video" do
+          expect(assigns(:video)).to eq video
+        end
+
+        it "sets @reviews" do
+          review = Fabricate(:review, video: video, user: current_user)
+          expect(assigns(:reviews)).to match_array [review] 
         end
 
         it "sets the error message" do

@@ -2,17 +2,18 @@ class ReviewsController < ApplicationController
   before_action :require_user
 
   def create
-    video = Video.find(params[:video_id])
+    @video = Video.find(params[:video_id])
     @review = Review.new(review_params)
-    @review.video = video
+    @review.video = @video
     @review.user = current_user
 
     if @review.save
       flash[:message] = "Your review was created"
-      redirect_to video_path(video)
+      redirect_to video_path(@video)
     else
+      @reviews = @video.reviews
       flash[:error] = "All fields are required"
-      redirect_to video_path(video)
+      render "videos/show"
     end
   end
 
