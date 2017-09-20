@@ -37,6 +37,10 @@ unless Video.find_by(title: "Family Guy")
 end
 
 family_guy = Video.find_by(title: "Family Guy")
+south_park = Video.find_by(title: "Southpark")
+
+QueueItem.create(position: 1, video: family_guy, user: steve)
+QueueItem.create(position: 2, video: south_park, user: steve)
 
 3.times do
   Review.create(
