@@ -1,9 +1,6 @@
 class SessionsController < ApplicationController
-  before_action :require_logged_out, only: [:new]
-
-  # TODO: message for require_logged_out should be suppressed
-
   def new
+    redirect_to home_path if current_user
   end
 
   def create

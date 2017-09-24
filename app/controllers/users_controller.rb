@@ -1,7 +1,6 @@
 class UsersController < ApplicationController
-  before_action :require_logged_out, only: [:new]
-
   def new
+    redirect_to home_path if current_user
     @user = User.new
   end
 
@@ -10,7 +9,7 @@ class UsersController < ApplicationController
 
     if @user.save
       flash[:notice] = "Your account was created"
-      redirect_to root_path
+      redirect_to signin_path
     else
       render :new
     end
