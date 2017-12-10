@@ -4,9 +4,9 @@ describe QueueItemsController do
   describe "GET index" do
     let(:video1) { Fabricate(:video) }
     let(:video2) { Fabricate(:video) }
-    let(:user) { set_current_user }
     
     it "sets @queue_items to queue items of logged in user" do
+      user = set_current_user
       queue_item1 = Fabricate(:queue_item, user: user, video: video1)
       queue_item2 = Fabricate(:queue_item, user: user, video: video2)
       get :index
@@ -14,6 +14,7 @@ describe QueueItemsController do
     end
 
     it "orders queue items by position ascending" do
+      user = set_current_user
       queue_item2 = Fabricate(:queue_item, video: video1, user: user, position: 2)
       queue_item1 = Fabricate(:queue_item, video: video2, user: user, position: 1)
       get :index
@@ -52,7 +53,7 @@ describe QueueItemsController do
       end
 
       it_behaves_like "require sign in" do
-        let(:action) { post :create, video_id: video.id }
+        let(:action) { post :create, video_id: 3 }
       end
     end
 
@@ -102,6 +103,12 @@ describe QueueItemsController do
   end
 
   describe "POST update_queue" do
+    it_behaves_like "require sign in" do
+      let(:action) do
+        post :update_queue, queue_items: [{id: 2, position: 2}, {id: 3, position: 3}]
+      end
+    end
+
     context "with valid inputs" do
       let(:video1) { Fabricate(:video) }
       let(:video2) { Fabricate(:video) }
@@ -133,12 +140,6 @@ describe QueueItemsController do
         post :update_queue, queue_items: queue_items
         expect(user.queue_items.map(&:position)).to eq([1, 2])
       end
-
-      it_behaves_like "require sign in" do
-        queue_items = [{id: queue_item1.id, position: queue_item1.position},
-                       {id: queue_item2.id, position: queue_item2.position}]
-        let(:action) { post :create, video_id: video.id }
-      end
     end
 
     context "with invalid inputs" do
@@ -163,15 +164,6 @@ describe QueueItemsController do
       it "does not change the queue items" do
         post :update_queue, queue_items: queue_items
         expect(queue_item1.reload.position).to eq 1
-      end
-    end
-
-    context "unauthenticated users" do
-      it "redirects to the sign in path" do
-        queue_items = [{id: 1, position: 2},
-                       {id: 2, position: 1}]
-        post :update_queue, queue_items: queue_items
-        expect(response).to redirect_to signin_path
       end
     end
 
@@ -238,12 +230,8 @@ describe QueueItemsController do
       expect(response).to redirect_to queue_items_path
     end
 
-    it "redirects to signin page for unauthenticated users" do
-      video = Fabricate(:video)
-      queue_item = Fabricate(:queue_item, video: video, user: user)
-      clear_current_user
-      post :destroy, id: queue_item.id
-      expect(response).to redirect_to signin_path
+    it_behaves_like "require sign in" do
+      let(:action) { delete :destroy, id: 1 }
     end
   end
 end

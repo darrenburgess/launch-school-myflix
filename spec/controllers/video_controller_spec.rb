@@ -3,38 +3,32 @@ require 'spec_helper'
 describe VideosController do
   describe "GET show" do
     let(:video) { Fabricate :video }
+    let(:user) { set_current_user }
 
     context "for authenticated users" do
-      before do
-        session[:user_id] = Fabricate(:user).id
-        get :show, id: video.id
-      end
-
       it "sets @video" do
+        get :show, id: video.id
         expect(assigns(:video).should eq video)
       end
 
       it "sets @reviews" do
-        review1 = Fabricate(:review, video: video, user_id: session[:user_id])
-        review2 = Fabricate(:review, video: video, user_id: session[:user_id])
+        review1 = Fabricate(:review, video: video, user: user)
+        review2 = Fabricate(:review, video: video, user: user)
+        get :show, id: video.id
         expect(assigns(:reviews)).to match_array([review1, review2])
       end
     end
 
-    context "for unauthentiated users" do
-      it "redirects to the signin template" do
-        get :show, id: video.id
-        expect(response).to redirect_to signin_path
-      end
+    it_behaves_like "require sign in" do
+      let(:action) { get :show, id: video.id }
     end
   end
-
 
   describe "POST search" do
     let(:video) { Fabricate :video }
 
     it "sets the @videos variable given a valid search for authenticated users" do
-      session[:user_id] = Fabricate(:user).id
+      set_current_user
       get :search, search_term: video.title
       expect(assigns(:videos)).to eq [video]
     end
